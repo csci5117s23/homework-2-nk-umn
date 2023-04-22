@@ -10,11 +10,15 @@ export default function TodoListCreator() {
     console.log("routerquery2: ", router.asPath);
     if (router.query) {
         return <>
-          <UserButton></UserButton>
-          <Todo individualTodo={router.query}></Todo>
-          <div>
-            <Link href="/todos">Todos</Link>
-          </div>
+        <div className="create-space">
+        <span>
+            <UserButton></UserButton>
+        </span>
+        <span>
+            <Link href="/todos" className='btn btn-success btn-large'>Todos</Link>
+        </span>
+        </div>
+        <Todo individualTodo={router.query}></Todo>
         </>
     } else {
         return <></>

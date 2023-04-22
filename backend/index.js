@@ -3,17 +3,23 @@
 * Auto generated Codehooks (c) example
 * Install: npm i codehooks-js codehooks-crudlify
 */
-import {app} from 'codehooks-js'
-import {crudlify} from 'codehooks-crudlify'
+// import {app} from 'codehooks-js'
+// import {crudlify} from 'codehooks-crudlify'
 
-import { date, object, string, number} from 'yup';
+// import { date, object, string, number} from 'yup';
 // import jwtDecode from 'jwt-decode';
+
+import {app, Datastore} from 'codehooks-js'
+import {crudlify} from 'codehooks-crudlify'
+import { date, object, string, number, bool, boolean} from 'yup';
+import jwtDecode from 'jwt-decode';
 
 const BackendItems = object({
     listName: string().required(),
     listText: string().required(),
     createdOn: date().default(() => new Date()),
     userId: string().required(),
+    isDone: boolean().required(),
 })
 
 const userAuth = async (req, res, next) => {
@@ -32,13 +38,14 @@ const userAuth = async (req, res, next) => {
 app.use(userAuth)
 
 app.use('/todos', (req, res, next) => {
-  if (req.method === "POST") {
-      console.log("req: " , req)
-      req.body.userId = req.user_token.sub
-  } else if (req.method === "GET") {
-    console.log("req2: " , req)
-      req.query.userId = req.user_token.sub
-  }
+  console.log("req: " , req)
+  // if (req.method === "POST") {
+  //     console.log("req: " , req)
+  //     req.body.userId = req.user_token.sub
+  // } else if (req.method === "GET") {
+  //   console.log("req2: " , req)
+  //     req.query.userId = req.user_token.sub
+  // }
   next();
 })
 
@@ -52,7 +59,7 @@ app.get("/test", (req, res) => {
   res.json({result: "you did it!"});
 });
 
-crudlify(app, { todoLists: BackendItems })
+crudlify(app, { todos: BackendItems })
 
 // Use Crudlify to create a REST API for any collection
 // crudlify(app)

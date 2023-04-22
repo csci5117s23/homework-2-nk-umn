@@ -6,6 +6,7 @@ import styles from '@/styles/Home.module.css'
 import { useAuth, UserButton, SignIn } from '@clerk/nextjs';
 import React, { useState, useEffect } from 'react';
 import TodoList from '@/components/TodoList'
+import Router from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,37 +15,27 @@ export default function Test() {
   const [data, setData] = useState([])
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-  async function test() {
-    const token = await getToken({template: 'codehooks'})
-    
+  if (userId) {
+    Router.push('/todos')
   }
 
-  return <>{userId ? <UserButton></UserButton> : <SignIn></SignIn>}
+  return <>
+    <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-dark">
+        <div className='text-center pb-5 text-light'>
+          <h2>
+            Nathan Kohane's Todo Helper Website
+          </h2>
+          <h3>
+            CSCI 5117
+          </h3>
+          <h3>
+            Please Login Below
+          </h3>
+        </div>
+        <div >
+          {userId ? <UserButton></UserButton> : <SignIn></SignIn>}
+        </div>
+    </div>
     </>
 }
 
-// import { 
-//   ClerkProvider,
-//   SignedIn,
-//   SignedOut,
-//   RedirectToSignIn 
-// } from "@clerk/clerk-react";
-
-// //function to handle private page
-// export default function PrivatePage() {
-//   return (
-//     <ClerkProvider publishableKey={"pk_test_YmlnLWdhdG9yLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"}>
-//       <SignedIn>
-//         Content that is displayed to signed in
-//         users.
-//       </SignedIn>
-//       <SignedOut>
-//         {/* 
-//           Non-authenticated visitors will be redirected
-//           to the sign in page.
-//         */}
-//         <RedirectToSignIn />
-//       </SignedOut>
-//     </ClerkProvider>
-//   );
-// }
